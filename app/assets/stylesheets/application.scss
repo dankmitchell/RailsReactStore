@@ -1,5 +1,9 @@
 @import "vendor/foundation_and_overrides";
 
+thead th, thead td, tfoot th, tfoot td {
+  text-align: inherit;
+}
+
 .basket__total {
   font-size: rem-calc(18);
   font-weight: $global-weight-bold;
@@ -14,4 +18,22 @@
 
 .basket-list * {
   margin-bottom: 0;
+}
+
+.basket-item__quantity input {
+  display: inline-block;
+  margin: 0 1rem;
+  width: 5rem;
+  vertical-align: middle;
+}
+
+.basket-item__quantity span {
+  border-radius: 50%;
+  background: $light-gray;
+  cursor: pointer;
+  display: inline-block;
+  height: 1.5rem;
+  text-align: center;
+  vertical-align: middle;
+  width: 1.5rem;
 }

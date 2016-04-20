@@ -11,6 +11,37 @@ var Basket = React.createClass({
     };
   },
 
+  addItem: function(e, item) {
+    this.state.items.push(item);
+    this.forceUpdate();
+
+    this.setItemsTotal();
+    this.setDeliveryAmount();
+    this.setBasketTotal();
+  },
+
+  removeItem: function(e, itemId) {
+    var itemIndexInArray;
+
+    this.state.items.some(function(item, index) {
+      if(item.id === itemId) {
+        itemIndexInArray = index;
+        return true;
+      }
+    });
+
+    this.state.items.splice(itemIndexInArray, 1);
+    this.forceUpdate();
+
+    this.setItemsTotal();
+    this.setDeliveryAmount();
+    this.setBasketTotal();
+  },
+
+  updateItem: function(e) {
+    this.setState({ item: e.target.value });
+  },
+
   setItemsTotal: function() {
     subtotal = 0;
 
@@ -48,14 +79,6 @@ var Basket = React.createClass({
   },
 
   render: function() {
-    // var basket_items = this.props.data.map(function(basket_item) {
-    //   return (
-    //     <div className="medium-4 columns end" key={basket_item.id}>
-    //       <BasketItem basket_item={basket_item} />
-    //     </div>
-    //   )
-    // });
-
     return (
       <div className="basket-wrap">
         <table className="basket-list">
@@ -65,33 +88,29 @@ var Basket = React.createClass({
               <td>Code</td>
               <td>Quantity</td>
               <td className="text-right">Price</td>
-              <td></td>
             </tr>
           </thead>
-          <tbody>
-            // Render basket items here
+          <BasketItem items={this.state.items} />
+          <tfoot>
             <tr className="basket__sub-total">
               <td></td>
               <td></td>
               <td>Sub Total: </td>
               <td>{this.state.subtotal.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
-              <td></td>
             </tr>
             <tr className="basket__delivery">
               <td></td>
               <td></td>
               <td>Delivery: </td>
               <td>{this.state.delivery.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
-              <td></td>
             </tr>
             <tr className="basket__total">
               <td></td>
               <td></td>
               <td>Total: </td>
               <td>{this.state.total.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
-              <td></td>
             </tr>
-          </tbody>
+          </tfoot>
         </table>
       </div>
     );

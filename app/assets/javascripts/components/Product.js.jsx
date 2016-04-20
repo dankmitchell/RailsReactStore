@@ -5,11 +5,16 @@ var Product = React.createClass({
     };
   },
 
-  addToBasket: function(e) {
-    $.publish('basket.added', this.props.data);
+  addToBasket: function() {
+    if(!this.state.added) {
+      $.publish('basket.added', this.props.data);
+    }
+    else {
+      $.publish('basket.removed', this.props.data.id);
+    }
 
     this.setState({
-      added: this.state.added
+      added: !this.state.added
     });
   },
 
@@ -21,8 +26,8 @@ var Product = React.createClass({
           <small className="product__code"> {this.props.data.code}</small>
         </h5>
         <p className="product__price">{"£" + this.props.data.price}</p>
-        <button className='button small radius success' onClick={this.addToBasket}>
-          Add to basket
+        <button className={this.state.added ? 'button small radius alert' : 'button small radius success'} onClick={this.addToBasket}>
+          {this.state.added ? 'Remove' : 'Add to Basket'}
         </button>
       </div>
     );
