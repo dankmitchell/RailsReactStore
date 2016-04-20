@@ -1,0 +1,17 @@
+@import "vendor/foundation_and_overrides";
+
+.basket__total {
+  font-size: rem-calc(18);
+  font-weight: $global-weight-bold;
+  text-align: right;
+}
+
+.basket__sub-total,
+.basket-item__price,
+.basket__delivery {
+  text-align: right;
+}
+
+.basket-list * {
+  margin-bottom: 0;
+}
