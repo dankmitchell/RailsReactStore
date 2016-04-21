@@ -83,7 +83,7 @@ var Basket = React.createClass({
   render: function() {
     return (
       <div className="basket-wrap">
-        <table className="basket-list">
+        <table className="basket-list stack">
           <thead>
             <tr>
               <td>Name</td>
@@ -95,21 +95,15 @@ var Basket = React.createClass({
           <BasketItem items={this.state.items} />
           <tfoot>
             <tr className="basket__sub-total">
-              <td></td>
-              <td></td>
-              <td>Sub Total: </td>
+              <td colSpan="3">Sub Total: </td>
               <td>{this.state.subtotal.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
             </tr>
             <tr className="basket__delivery">
-              <td></td>
-              <td></td>
-              <td>Delivery: </td>
+              <td colSpan="3">Delivery: </td>
               <td>{this.state.delivery.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
             </tr>
             <tr className="basket__total">
-              <td></td>
-              <td></td>
-              <td>Total: </td>
+              <td colSpan="3">Total: </td>
               <td>{this.state.total.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
             </tr>
           </tfoot>

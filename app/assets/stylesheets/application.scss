@@ -4,16 +4,13 @@ thead th, thead td, tfoot th, tfoot td {
   text-align: inherit;
 }
 
+.product-wrap {
+  margin-bottom: 1rem;
+}
+
 .basket__total {
   font-size: rem-calc(18);
   font-weight: $global-weight-bold;
-  text-align: right;
-}
-
-.basket__sub-total,
-.basket-item__price,
-.basket__delivery {
-  text-align: right;
 }
 
 .basket-list * {
@@ -36,4 +33,20 @@ thead th, thead td, tfoot th, tfoot td {
   text-align: center;
   vertical-align: middle;
   width: 1.5rem;
+}
+
+// Override foundation default
+@media #{$small-only} {
+  table.stack tfoot {
+    display: block !important;
+  }
+}
+
+@media #{$medium-up} {
+  .basket__sub-total,
+  .basket-item__price,
+  .basket__delivery,
+  .basket__total {
+    text-align: right;
+  }
 }
