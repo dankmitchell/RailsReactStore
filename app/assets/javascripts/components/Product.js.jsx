@@ -19,13 +19,14 @@ var Product = React.createClass({
   },
 
   render: function() {
+    var product = this.props.data;
     return (
       <div className="callout product-wrap">
         <h5 className="product__name">
-          {this.props.data.name}
-          <small className="product__code"> {this.props.data.code}</small>
+          {product.name}
+          <small className="product__code"> {product.code}</small>
         </h5>
-        <p className="product__price">{"£" + this.props.data.price}</p>
+        <p className="product__price">{"£" + product.price}</p>
         <button className={this.state.added ? 'button small radius alert' : 'button small radius success'} onClick={this.addToBasket}>
           {this.state.added ? 'Remove' : 'Add to Basket'}
         </button>
