@@ -2,8 +2,7 @@
   .small-12.columns
     %h1 Rails &amp; React Store
     %hr
-    %h3 Products
     = react_component 'ProductList',  { data: @products }
     %hr
     %h3 Basket
-    = react_component 'Basket',  { data: @basket_items }
+    = react_component 'Basket',  { data: @items }

@@ -1,19 +1,42 @@
 var Basket = React.createClass({
   getInitialState: function() {
-    $.subscribe('basket.added', this.addItem);
-    $.subscribe('basket.removed', this.removeItem);
-
     return {
-      items: [],
+      items: this.props.data,
       subtotal: 0,
       delivery: 0,
       total: 0
     };
   },
 
+  getDefaultProps: function () {
+    return {
+      items: []
+    }
+  },
+
+  componentWillMount: function() {
+    this.setState({
+      items: this.props.items
+    })
+  },
+
+  componentDidMount: function() {
+    this.token = $.subscribe('basket_added', this.addItem);
+    this.token = $.subscribe('basket_removed', this.removeItem);
+    this.setItemsTotal();
+    this.setDeliveryAmount();
+    this.setBasketTotal();
+  },
+
+  componentWillUnmount: function() {
+    $.unsubscribe(this.token)
+  },
+
   addItem: function(e, item) {
     this.state.items.push(item);
-    this.forceUpdate();
+    this.setState({
+      items: this.props.items
+    })
 
     this.setItemsTotal();
     this.setDeliveryAmount();
@@ -21,25 +44,15 @@ var Basket = React.createClass({
   },
 
   removeItem: function(e, itemId) {
-    var itemIndexInArray;
-
-    this.state.items.some(function(item, index) {
-      if(item.id === itemId) {
-        itemIndexInArray = index;
-        return true;
-      }
+    var itemsArray = this.state.items.slice();
+    this.state.items.splice(itemsArray, 1);
+    this.setState({
+      items: itemsArray
     });
-
-    this.state.items.splice(itemIndexInArray, 1);
-    this.forceUpdate();
 
     this.setItemsTotal();
     this.setDeliveryAmount();
     this.setBasketTotal();
-  },
-
-  updateItem: function(e) {
-    this.setState({ item: e.target.value });
   },
 
   setItemsTotal: function() {
@@ -81,34 +94,46 @@ var Basket = React.createClass({
   },
 
   render: function() {
-    return (
+    var basket_table = (
+      <table className="basket-list stack">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Code</td>
+            <td>Quantity</td>
+            <td className="text-right">Price</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {this.state.items.map(function(item){
+            return <BasketItem data={item} key={item.id} />
+          })}
+        </tbody>
+        <tfoot>
+          <tr className="basket__sub-total">
+            <td colSpan="3">Sub Total: </td>
+            <td>{this.state.subtotal.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
+            <td></td>
+          </tr>
+          <tr className="basket__delivery">
+            <td colSpan="3">Delivery: </td>
+            <td>{this.state.delivery.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
+            <td></td>
+          </tr>
+          <tr className="basket__total">
+            <td colSpan="3">Total: </td>
+            <td>{this.state.total.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    )
+
+    return(
       <div className="basket-wrap">
-        <table className="basket-list stack">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Code</td>
-              <td>Quantity</td>
-              <td className="text-right">Price</td>
-            </tr>
-          </thead>
-          <BasketItem items={this.state.items} />
-          <tfoot>
-            <tr className="basket__sub-total">
-              <td colSpan="3">Sub Total: </td>
-              <td>{this.state.subtotal.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
-            </tr>
-            <tr className="basket__delivery">
-              <td colSpan="3">Delivery: </td>
-              <td>{this.state.delivery.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
-            </tr>
-            <tr className="basket__total">
-              <td colSpan="3">Total: </td>
-              <td>{this.state.total.toLocaleString('en', { style: 'currency', currency: 'GBP' })}</td>
-            </tr>
-          </tfoot>
-        </table>
+        {basket_table}
       </div>
-    );
+    )
   }
 });
