@@ -57,12 +57,14 @@ var Basket = React.createClass({
   setDeliveryAmount: function() {
     delivery = 0;
 
-    if(subtotal >= 50.00 && subtotal <= 90.00) {
+    if (subtotal > 0.00 && subtotal < 50.00) {
+      delivery = 4.95;
+    } else if (subtotal >= 50.00 && subtotal <= 90.00) {
       delivery = 2.95;
     } else if (subtotal > 90.00) {
       delivery = 0.00;
     } else {
-      delivery = 4.95;
+      delivery = 0;
     }
 
     this.setState({
